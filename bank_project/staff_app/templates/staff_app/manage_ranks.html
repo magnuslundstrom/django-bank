@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="text-xl font-semibold mb-4">Manage Ranks</h1>
+<form action="" method="POST">
+  {% csrf_token %} {{form}} <input type="submit" value="Create rank" class="bg-green-400 text-white rounded py-2" />
+</form>
+
+<div class="mt-10">
+  <h2 class="text-xl font-semibold mb-4">All ranks - For now you have to contact Super User to delete</h2>
+  {% for rank in ranks %}
+  <div class="flex">
+    <p class="mr-4">{{rank.name}}</p>
+    <p>{{rank.can_loan}}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

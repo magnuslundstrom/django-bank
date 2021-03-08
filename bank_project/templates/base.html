@@ -22,16 +22,30 @@
      {% if user.is_superuser %}  
      {% comment %} SUPER_USER LOGO URL {% endcomment %}
      {% url 'super_app:show_staff' %}
+     {% elif user.is_staff %}
+     {% comment %} STAFF LOGO URL {% endcomment %}
+     {% url 'staff_app:overview' %}
      {% else %}
+     {% comment %} COSTUMER LOGO URL {% endcomment %}
      /
       {% endif %}
       "
         class="font-semibold"
         >Shell Banking</a
       >
-      {% if user.is_authenticated %}
-      <a href="{% url 'account_app:logout' %}">Logout</a>
-      {% endif %}
+      {% comment %} Right side of the navigation {% endcomment %}
+      <div>
+        {% if user.is_authenticated %} {% if user.is_superuser %} {% elif user.is_staff %}
+        <a href="{% url 'staff_app:manage_ranks' %}" class="mr-2">Ranks</a>
+        <a href="{% url 'staff_app:display_costumers' %}" class="mr-2">Costumers</a>
+        {% else %}
+        <a href="">Input some costumer stuff</a>
+        {% endif %} {% comment %} EVERY USER SHOULD HAVE LOGOUT WHEN AUTHENTICATED {% endcomment %}
+        <a href="{% url 'account_app:logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'account_app:costumer_signup' %}">Signup</a>
+        {% endif %}
+      </div>
     </nav>
     <main class="container p-4 mx-auto">
       <h1 class="font-bold text-3xl mb-8">{{title}}</h1>

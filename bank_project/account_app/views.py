@@ -1,13 +1,15 @@
+from costumer_app.models import Costumer, Rank
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import (
     authenticate,
-    get_user_model,
     login as dj_login,
     logout as dj_logout,
 )
-from .forms import LoginForm
+from .forms import LoginForm, CreateCostumerForm
 from django.urls import reverse
+from operator import itemgetter
+from django.db import transaction
 
 
 def login(request):
@@ -33,3 +35,28 @@ def login(request):
 def logout(request):
     dj_logout(request)
     return redirect(reverse("account_app:login"))
+
+
+def costumer_signup(request):
+    form = CreateCostumerForm()
+
+    if request.method == "POST":
+        username, password, first_name, last_name, email = itemgetter(
+            "username", "password", "first_name", "last_name", "email"
+        )(request.POST)
+        with transaction.atmoic():
+
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                is_staff=False,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+            )
+            rank = Rank.objects.get(name="Basic")
+            costumer = Costumer(user=user, Rank=rank)
+            costumer.save()
+
+        return redirect(reverse("account_app:login"))
+    return render(request, "account_app/signup.html", {"form": form})

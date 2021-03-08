@@ -1,12 +1,15 @@
 # Written by Magnus Lundstrøm
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from .forms import CreateStaffForm
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from operator import itemgetter
 
 
 # TODO ~ Validation
+@login_required
 def show_staff(request):
     staff_members = User.objects.filter(is_staff=True, is_superuser=False)
     return render(
@@ -14,6 +17,7 @@ def show_staff(request):
     )
 
 
+@login_required
 def create_staff(request):
     form = CreateStaffForm()
 
@@ -35,6 +39,7 @@ def create_staff(request):
     return render(request, "super_app/create_staff.html", {"form": form})
 
 
+@login_required
 def delete_staff(request, staff_id):
     staff = User.objects.get(id=staff_id)
     staff.delete()
