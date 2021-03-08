@@ -11,23 +11,23 @@ from django.urls import reverse
 
 
 def login(request):
-
+    context = {"form": LoginForm()}
     if request.method == "POST":
-        context = {}
         username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(username=username, password=password)
         if user:
             dj_login(request, user)
             # add redirections here later
             if user.is_superuser:
                 return redirect(reverse("super_app:show_staff"))
+            elif user.is_staff:
+                return redirect(reverse("staff_app:overview"))
         else:
             context["error"] = "Wrong email or password"
         return render(request, "account_app/login.html", context)
 
-    form = LoginForm()
-    return render(request, "account_app/login.html", {"form": form})
+    return render(request, "account_app/login.html", context)
 
 
 def logout(request):
