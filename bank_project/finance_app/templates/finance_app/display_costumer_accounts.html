@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+
+<section class="">
+  <ul class="grid grid-flow-row grid-cols-2 gap-4">
+    {% for account in accounts %}
+    <li class="mb-4 list-none border rounded-lg shadow-md p-4">
+      <div class="flex justify-between mb-2">
+        <p class="font-bold">{{account.account_number}}</p>
+        <a
+          class="underline text-blue-500"
+          href="{% url 'costumer_app:display_account_transactions' account_number=account.account_number%}"
+          >See transactions</a
+        >
+      </div>
+      <p class="text-gray-500 text-sm">{{account.balance}}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  <a class="text-blue-500 underline" href="{% url 'finance_app:create_new_account_number' %}">Create new account</a>
+</section>
+
+{% endblock %}

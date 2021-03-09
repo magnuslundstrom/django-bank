@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% block content %}
+<div class="mt-4">
+  <h1 class="text-2xl mb-4">Transactions for: {{account_number}}</h1>
+
+  {% if ledgers %}
+
+  <table class="w-full border-collapse text-md shadow-md rounded-md">
+    <thead class="w-full">
+      <tr class="bg-gray-200 font-bold">
+        <th class="text-left p-4">Amount</th>
+        <th class="text-left">From/To</th>
+        <th class="text-left">Balance</th>
+        <th class="text-left">Date</th>
+      </tr>
+    </thead>
+    <tbody class="mb-5">
+      {% for ledge in ledgers %}
+      <tr class="border-b border-t" id="{{ledge.id}}">
+        <td class="p-4 amount {% if ledge.amount < 0 %} text-red-600 {% else %} text-green-600 {%endif%}">{{ledge.amount}}</td>
+        <td>{{ledge.transaction.receiver}}</td>
+        <td>{{ledge.balance}}</td>
+        <td>{{ledge.transaction.transaction_date|date:'d-m-Y'}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="font-semibold mt-4 text-red-400">No ledgers on this account</p>
+  {% endif %}
+</div>
+{% endblock %}

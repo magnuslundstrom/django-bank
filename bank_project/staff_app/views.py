@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .forms import CreateRankForm
+from .forms import CreateRankForm, ChangeCostumerRankForm
 from costumer_app.models import Rank, Costumer
 
 
@@ -29,3 +30,35 @@ def display_costumers(request):
     costumers = Costumer.objects.all()
 
     return render(request, "staff_app/display_costumers.html", {"costumers": costumers})
+
+
+@login_required
+def change_costumer_rank(request, costumer_id):
+    costumer = Costumer.objects.get(id=costumer_id)
+    form = ChangeCostumerRankForm(initial={"rank": costumer.rank})
+    if request.method == "POST":
+        form = ChangeCostumerRankForm(request.POST, instance=costumer)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("staff_app:display_costumers"))
+
+    return render(
+        request,
+        "staff_app/change_costumer_rank.html",
+        {"costumer": costumer, "form": form},
+    )
+
+
+@login_required
+def delete_costumer(request, costumer_id):
+    costumer = Costumer.objects.get(id=costumer_id)
+    name = ""
+    if costumer:
+        name = costumer.user.first_name
+        costumer.user.delete()
+
+    return render(
+        request,
+        "staff_app/display_costumers.html",
+        {"message": f"{name} was deleted"},
+    )

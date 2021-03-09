@@ -41,6 +41,7 @@ def create_staff(request):
 
 @login_required
 def delete_staff(request, staff_id):
+
     staff = User.objects.get(id=staff_id)
     staff.delete()
 

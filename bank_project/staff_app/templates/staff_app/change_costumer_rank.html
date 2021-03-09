@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1 class="text-xl font-semibold">Change rank for {{costumer.user.first_name}} {{costumer.user.last_name}}</h1>
+<form action="" method="POST">
+  {% csrf_token %} {{form}}
+  <input type="submit" value="Change rank" class="mt-4 rounded bg-green-400 text-white rounded py-2" />
+</form>
+
+{% endblock %}

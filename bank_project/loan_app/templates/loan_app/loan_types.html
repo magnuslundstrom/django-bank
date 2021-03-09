@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+<div class="">
+  {% include 'loan_app/submenu.html' %}
+  <h1 class="text-2xl font-semibold my-4">Manage loan types (check for admin later)</h1>
+  <p class="mb-4">All available loans for costumers</p>
+  {% for loan_type in loan_types %}
+  <form action="{% url 'loan_app:delete'%}" method="POST" class="bg-gray-200 rounded p-4 mb-4">
+    {% csrf_token %}
+    <p class="text-xl">Name: {{loan_type.loan_name}}</p>
+    <p>Rate: {{loan_type.rate}}</p>
+    <p>Max: {{loan_type.max_amount}}</p>
+    <p>Min: {{loan_type.min_amount}}</p>
+    <p>Requires Approval: {{loan_type.requires_approval}}</p>
+    <input type="hidden" name="loan_type_id" value="{{loan_type.id}}" />
+    <button class="bg-red-600 text-white px-4 py-2 rounded">Delete Loan Type</button>
+  </form>
+  {% endfor %}
+</div>
+{% endblock %}

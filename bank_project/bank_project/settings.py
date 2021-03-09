@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "super_app",
     "staff_app",
     "costumer_app",
+    "finance_app",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

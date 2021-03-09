@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block content %}
+<div class="">
+  {% include 'loan_app/submenu.html' %}
+  <h1 class="text-2xl font-semibold mt-4">Loans</h1>
+  <p class="mt-4">Get an overview over all available loans and see a status on your current loans.</p>
+  <h2 class="text-xl font-semibold mt-4">Available loan types:</h2>
+  {% for loan_type in loan_types %}
+  <div class="bg-gray-200 rounded p-4 mt-4 shadow-md">
+    <p class="text-xl">Name: {{loan_type.loan_name}}</p>
+    <p>Rate: {{loan_type.rate}}</p>
+    <p>Max: {{loan_type.max_amount}}</p>
+    <p>Min: {{loan_type.min_amount}}</p>
+    <p>Requires Approval: {{loan_type.requires_approval}}</p>
+    <a href="{% url 'loan_app:apply' id=loan_type.id %}" class="text-white bg-green-400 rounded px-4 py-2 mt-4 inline-block"
+      >Read more / Apply</a
+    >
+  </div>
+  {% endfor %}
+</div>
+
+<h2 class="mt-4 text-xl font-semibold">Waiting loan applications</h2>
+{% if loan_applications %}
+<p class="mt-4">You have applied for the following loans, and they have not yet been approved:</p>
+<div class="grid grid-cols-4 mt-4 gap-10">
+  {% for loan_application in loan_applications %}
+  <div class="bg-gray-200 rounded p-10">
+    <p class="font-semibold">{{loan_application.loan_type.loan_name}}</p>
+    <p>You requested: {{loan_application.requested_loan_amount}}</p>
+    <p>Application date: {{loan_application.applied_at|date:'d-m-Y'}}</p>
+    <form action="{% url 'loan_app:delete_loan_application'%}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="application_id" value="{{loan_application.id}}" />
+      <button class="mt-4 bg-red-400 text-white rounded px-4 py-2">Cancel application</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="mt-4">You have no waiting loan applications - But you should totally think about taking one. 😄</p>
+{% endif %}
+<h2 class="text-xl font-semibold mt-4">Approved loans</h2>
+{% endblock %}

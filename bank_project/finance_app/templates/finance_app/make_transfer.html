@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<div class="mt-4">
+  {% if owned_accounts %}
+  <form action="" method="POST" class="flex flex-col w-72">
+    {% csrf_token %}
+    <label for="Select account" class="mb-2">From account</label>
+    <select name="sender_account" class="mb-4">
+      {% for account in owned_accounts %}
+      <option value="{{account.account_number}}">{{account.account_number}}</option>
+      {% endfor %}
+    </select>
+    <label for="receiver_account" class="mb-2">Receiver account number</label>
+    <input type="text" name="account_number" id="account_number" placeholder="Account number" class="p-2" />
+    <label for="amount" class="mt-4 mb-1">Amount</label>
+    <input type="text" name="amount" id="amount" class="p-2" />
+    <button class="bg-green-400 text-white px-4 py-2 rounded mt-4 self-start">Transfer</button>
+  </form>
+  {% if error %}
+  <p class="mt-4 text-red-400">{{error}}</p>
+  {% endif %} {% else %}
+  <p class="font-semibold">You have no accounts. Please make an account before trying to transfer</p>
+  {% endif %}
+</div>
+{% endblock %}

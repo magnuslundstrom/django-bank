@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+
+def overview(request):
+    return render(request, "costumer_app/overview.html")

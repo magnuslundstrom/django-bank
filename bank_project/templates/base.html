@@ -27,7 +27,7 @@
      {% url 'staff_app:overview' %}
      {% else %}
      {% comment %} COSTUMER LOGO URL {% endcomment %}
-     /
+     {% url 'costumer_app:display_costumer_accounts' %}
       {% endif %}
       "
         class="font-semibold"
@@ -35,11 +35,13 @@
       >
       {% comment %} Right side of the navigation {% endcomment %}
       <div>
-        {% if user.is_authenticated %} {% if user.is_superuser %} {% elif user.is_staff %}
-        <a href="{% url 'staff_app:manage_ranks' %}" class="mr-2">Ranks</a>
-        <a href="{% url 'staff_app:display_costumers' %}" class="mr-2">Costumers</a>
-        {% else %}
-        <a href="">Input some costumer stuff</a>
+        {% if user.is_authenticated %} {% if user.is_superuser %} {% comment %} THIS IS RIGHT MENU FOR STAFFFFF {% endcomment %}
+        {% elif user.is_staff %}
+        <a href="{% url 'staff_app:manage_ranks' %}" class="mr-4">Ranks</a>
+        <a href="{% url 'staff_app:display_costumers' %}" class="mr-4">Costumers</a>
+        {% else %} {% comment %} THIS IS RIGHT MENU FOR COSTUMERS {% endcomment %}
+        <a href="{% url 'costumer_app:display_costumer_accounts' %}" class="mr-4">Overview</a>
+        <a href="{% url 'costumer_app:make_transfer' %}" class="mr-4">Transfer</a>
         {% endif %} {% comment %} EVERY USER SHOULD HAVE LOGOUT WHEN AUTHENTICATED {% endcomment %}
         <a href="{% url 'account_app:logout' %}">Logout</a>
         {% else %}

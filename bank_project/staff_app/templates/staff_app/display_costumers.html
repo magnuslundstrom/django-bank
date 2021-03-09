@@ -1,4 +1,36 @@
 {% extends 'base.html' %} {% block content %}
-<h1 class="text-xl font-semibold mb-4">All costumers</h1>
-
-{% for costumer in costumers %} {% endfor %} {% endblock %}
+<h1 class="text-xl font-semibold mb-4">Overview of costumers</h1>
+<p class="mb-4">Here you can see and manage all costumers</p>
+{{message}} {% for costumer in costumers %}
+<table class="w-full border-collapse text-md shadow-md rounded-md">
+  <thead class="w-full">
+    <tr class="bg-gray-200 font-bold">
+      <th class="text-left p-4">Id & Name</th>
+      <th class="text-left">Email</th>
+      <th class="text-left">Phone number</th>
+      <th class="text-left">Rank</th>
+      <th class="text-left">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="mb-5">
+    {% for costumer in costumers %}
+    <tr class="border-b border-t">
+      <td class="p-4">{{costumer.id}}) {{costumer.user.first_name}} {{costumer.user.last_name}}</td>
+      <td>{{costumer.user.email}}</td>
+      <td>{% if costumer.phone_number %} {{costumer.phome_number}} {% else %} No phone number{% endif %}</td>
+      <td>{{costumer.rank.name}}</td>
+      <td>
+        <div>
+          <a href="{% url 'staff_app:delete_costumer' costumer_id=costumer.id %}">
+            <i class="fas fa-trash-alt text-red-500 text-xl mr-2"></i>
+          </a>
+          <a href="{% url 'staff_app:change_costumer_rank' costumer_id=costumer.id %}"
+            ><i class="fas fa-user-alt text-blue-500 text-xl"></i
+          ></a>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endfor %} {% endblock %}

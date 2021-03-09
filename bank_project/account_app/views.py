@@ -25,6 +25,8 @@ def login(request):
                 return redirect(reverse("super_app:show_staff"))
             elif user.is_staff:
                 return redirect(reverse("staff_app:overview"))
+            else:
+                return redirect(reverse("costumer_app:display_costumer_accounts"))
         else:
             context["error"] = "Wrong email or password"
         return render(request, "account_app/login.html", context)
@@ -44,7 +46,7 @@ def costumer_signup(request):
         username, password, first_name, last_name, email = itemgetter(
             "username", "password", "first_name", "last_name", "email"
         )(request.POST)
-        with transaction.atmoic():
+        with transaction.atomic():
 
             user = User.objects.create_user(
                 username=username,
@@ -55,7 +57,7 @@ def costumer_signup(request):
                 email=email,
             )
             rank = Rank.objects.get(name="Basic")
-            costumer = Costumer(user=user, Rank=rank)
+            costumer = Costumer(user=user, rank=rank)
             costumer.save()
 
         return redirect(reverse("account_app:login"))
