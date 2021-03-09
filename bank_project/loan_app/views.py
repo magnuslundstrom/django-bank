@@ -14,7 +14,6 @@ def costumer_loan_overview(request):
     loan_applications = LoanApplication.objects.filter(user=request.user, status=False)
     loan_types = LoanType.objects.all()
     active_loans = Loan.objects.filter(user=request.user)
-
     context = {
         "costumer": costumer,
         "user_loans": [],
@@ -113,7 +112,6 @@ def delete_loan_application(request):
 @login_required
 def approve_loan_application(request):
     if request.method == "POST":
-
         application_id = request.POST["application_id"]
         loan_application = LoanApplication.objects.get(id=application_id)
         loan_application.status = True

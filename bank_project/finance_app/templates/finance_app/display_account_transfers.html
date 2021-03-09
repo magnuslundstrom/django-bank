@@ -16,7 +16,7 @@
     <tbody class="mb-5">
       {% for ledge in ledgers %}
       <tr class="border-b border-t" id="{{ledge.id}}">
-        <td class="p-4 amount {% if ledge.amount < 0 %} text-red-600 {% else %} text-green-600 {%endif%}">{{ledge.amount}}</td>
+        <td class="p-4 {% if ledge.amount < 0 %} text-red-600 {% else %} text-green-600 {%endif%}">{{ledge.amount}}</td>
         <td>{{ledge.transaction.receiver}}</td>
         <td>{{ledge.balance}}</td>
         <td>{{ledge.transaction.transaction_date|date:'d-m-Y'}}</td>

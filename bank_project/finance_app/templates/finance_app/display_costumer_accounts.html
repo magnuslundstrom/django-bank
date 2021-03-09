@@ -14,7 +14,7 @@
           >See transactions</a
         >
       </div>
-      <p class="text-gray-500 text-sm">{{account.balance}}</p>
+      <p class="{% if account.balance < 0 %} text-red-600 {% else %} text-green-600 {%endif%} text-sm">{{account.balance}}</p>
     </li>
     {% endfor %}
   </ul>
