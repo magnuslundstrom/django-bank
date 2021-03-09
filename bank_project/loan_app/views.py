@@ -9,7 +9,7 @@ from operator import itemgetter
 
 # needs to fetch approved loans too
 @login_required
-def index(request):
+def costumer_loan_overview(request):
     loan_applications = LoanApplication.objects.all().filter(user=request.user)
     loan_types = LoanType.objects.all()
     context = {
@@ -17,7 +17,7 @@ def index(request):
         "loan_types": loan_types,
         "loan_applications": loan_applications,
     }
-    return render(request, "loan_app/index.html", context)
+    return render(request, "loan_app/costumer_loan_overview.html", context)
 
 
 # TODO: ADD RANKING CHECK + RENAME TO LOAN_TYPE_CREATE

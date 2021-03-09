@@ -42,6 +42,7 @@
         {% else %} {% comment %} THIS IS RIGHT MENU FOR COSTUMERS {% endcomment %}
         <a href="{% url 'costumer_app:display_costumer_accounts' %}" class="mr-4">Overview</a>
         <a href="{% url 'costumer_app:make_transfer' %}" class="mr-4">Transfer</a>
+        <a href="{% url 'costumer_app:costumer_loan_overview' %}" class="mr-4">Loans</a>
         {% endif %} {% comment %} EVERY USER SHOULD HAVE LOGOUT WHEN AUTHENTICATED {% endcomment %}
         <a href="{% url 'account_app:logout' %}">Logout</a>
         {% else %}

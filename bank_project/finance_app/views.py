@@ -8,9 +8,17 @@ from django.db import transaction
 
 @login_required
 def display_costumer_accounts(request):
-    accounts = Account.objects.filter(user=request.user)
+    accounts = Account.objects.all().filter(user=request.user)
+    for account in accounts:
+        ledgers = Ledger.objects.filter(account=account)
+        if not ledgers:
+            account.balance = 0
+        else:
+            account.balance = account.calculate_balance(ledgers)
     return render(
-        request, "finance_app/display_costumer_accounts.html", {"accounts": accounts}
+        request,
+        "finance_app/display_costumer_accounts.html",
+        {"accounts": accounts},
     )
 
 
