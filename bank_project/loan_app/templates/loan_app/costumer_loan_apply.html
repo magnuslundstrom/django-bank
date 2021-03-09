@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block content %}
+<div class="">
+  <h1 class="text-2xl font-semibold my-4">Apply for loan: {{loan_type.loan_name}}</h1>
+  <p>
+    This is a very intersting loan with only {{loan_type.rate}} in rate. The loan has been available since
+    {{loan_type.created_at|date:'d-m-Y'}}.
+  </p>
+  <h2 class="text-xl font-semibold mt-4">Loan details</h2>
+  <p>Minimum: {{loan_type.min_amount}}</p>
+  <p>Maximum: {{loan_type.max_amount}}</p>
+  <form class="my-4 bg-gray-300 rounded p-10" method="POST">
+    <h2 class="text-xl font-semibold mt-4">Request loan!</h2>
+    {% csrf_token %} {{loan_application_form.as_p}}
+    <input type="submit" value="Apply now!" class="bg-green-400 border-0 text-white px-4 py-2 rounded" />
+  </form>
+  <p class="font-semibold">{{message}}</p>
+</div>
+{% endblock %}

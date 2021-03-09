@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="text-2xl font-semibold mb-4">All loans applications</h1>
+{% if not loan_applications %}
+<p class="mb-4 font-semibold">There is currently no loan applications waiting to be handled</p>
+{% else %}
+<p class="mb-4">Here are all the loan applications waiting to be handled</p>
+<div class="grid grid-cols-3 gap-10">
+{% for loan_application in loan_applications %}
+  <div class="bg-gray-200 rounded p-10">
+    <p class="font-semibold mb-2">Requested by {{loan_application.user.first_name}} {{loan_application.user.last_name}}</p>
+    <p class="font-semibold">{{loan_application.loan_type.loan_name}}</p>
+    <p>You requested: {{loan_application.requested_loan_amount}}</p>
+    <p>Application date: {{loan_application.applied_at|date:'d-m-Y'}}</p>
+    <div class="flex">
+    <form action="{% url 'loan_app:delete_loan_application'%}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="application_id" value="{{loan_application.id}}" />
+      <button class="mt-4 bg-red-400 text-white rounded px-4 py-2 mr-4">Reject application</button>
+    </form>
+    <form action="{% url 'staff_app:approve_loan_application'%}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="application_id" value="{{loan_application.id}}" />
+      <button class="mt-4 bg-green-400 text-white rounded px-4 py-2">Approve application</button>
+    </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,19 +1,25 @@
 {% extends 'base.html' %} {% block content %}
 <div class="">
-  {% include 'loan_app/submenu.html' %}
-  <h1 class="text-2xl font-semibold my-4">Manage loan types (check for admin later)</h1>
+  <h1 class="text-2xl font-semibold my-4">Manage loan types</h1>
+  <a href="{% url 'staff_app:create_loan_type'%}" 
+  class="bg-green-400 text-white px-4 py-2 rounded mb-4 inline-block"
+  >Create new loan type</a>
+  
   <p class="mb-4">All available loans for costumers</p>
-  {% for loan_type in loan_types %}
-  <form action="{% url 'loan_app:delete'%}" method="POST" class="bg-gray-200 rounded p-4 mb-4">
+  <div class="grid grid-cols-4 gap-10">
+    {% for loan_type in loan_types %}
+    <div class="bg-gray-200 rounded p-10">
+    <form action="{% url 'loan_app:delete_loan_type'%}" method="POST" class="bg-gray-200 roundedmb-4">
     {% csrf_token %}
     <p class="text-xl">Name: {{loan_type.loan_name}}</p>
     <p>Rate: {{loan_type.rate}}</p>
     <p>Max: {{loan_type.max_amount}}</p>
     <p>Min: {{loan_type.min_amount}}</p>
-    <p>Requires Approval: {{loan_type.requires_approval}}</p>
     <input type="hidden" name="loan_type_id" value="{{loan_type.id}}" />
-    <button class="bg-red-600 text-white px-4 py-2 rounded">Delete Loan Type</button>
+    <button class="bg-red-600 text-white px-4 py-2 rounded mt-4">Delete Loan Type</button>
   </form>
+    </div>
   {% endfor %}
+  </div>
 </div>
 {% endblock %}

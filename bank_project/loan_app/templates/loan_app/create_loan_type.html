@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<div class="">
+  {% include 'loan_app/submenu.html' %}
+  <h1 class="text-2xl font-semibold my-4">
+    Create new type of loan
+  </h1>
+  <form action="" method="post">
+    {% csrf_token %} {{form.as_p}}
+    <input type="submit" class="bg-green-400 text-white px-4 py-2 rounded border-0" value="Submit" />
+  </form>
+</div>
+{% endblock %}

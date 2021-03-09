@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 
 <section class="">
+
+<h1 class="mb-4 text-xl font-semibold">Welcome to your back account {{user}}</h1>
   <ul class="grid grid-flow-row grid-cols-2 gap-4">
     {% for account in accounts %}
     <li class="mb-4 list-none border rounded-lg shadow-md p-4">

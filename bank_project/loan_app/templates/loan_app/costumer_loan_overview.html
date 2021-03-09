@@ -3,19 +3,22 @@
   {% include 'loan_app/submenu.html' %}
   <h1 class="text-2xl font-semibold mt-4">Loans</h1>
   <p class="mt-4">Get an overview over all available loans and see a status on your current loans.</p>
-  <h2 class="text-xl font-semibold mt-4">Available loan types:</h2>
+  <h2 class="text-xl font-semibold mt-4">Available loan types for you rank ({{costumer.rank.name}}):</h2>
+  {% if costumer.rank.name == 'Basic' %}
+  <p class="text-red-400 font-semibold mt-4 text-xl">Unfortunately no loans for you my guy</p>
+  {% else %}
   {% for loan_type in loan_types %}
   <div class="bg-gray-200 rounded p-4 mt-4 shadow-md">
     <p class="text-xl">Name: {{loan_type.loan_name}}</p>
     <p>Rate: {{loan_type.rate}}</p>
     <p>Max: {{loan_type.max_amount}}</p>
     <p>Min: {{loan_type.min_amount}}</p>
-    <p>Requires Approval: {{loan_type.requires_approval}}</p>
-    <a href="{% url 'loan_app:apply' id=loan_type.id %}" class="text-white bg-green-400 rounded px-4 py-2 mt-4 inline-block"
+    <a href="{% url 'costumer_app:apply_loan' loan_id=loan_type.id %}" class="text-white bg-green-400 rounded px-4 py-2 mt-4 inline-block"
       >Read more / Apply</a
     >
   </div>
   {% endfor %}
+  {% endif %}
 </div>
 
 <h2 class="mt-4 text-xl font-semibold">Waiting loan applications</h2>
@@ -36,7 +39,17 @@
   {% endfor %}
 </div>
 {% else %}
-<p class="mt-4">You have no waiting loan applications - But you should totally think about taking one. 😄</p>
+<p class="mt-4">You have no waiting loan applications - But you should totally think about taking one IF YOU CAN 😄</p>
 {% endif %}
-<h2 class="text-xl font-semibold mt-4">Approved loans</h2>
+<h2 class="text-xl font-semibold mt-4">Active Loans</h2>
+
+<div class="grid grid-cols-4 gap-10">
+{% for active_loan in active_loans %}
+<div class="bg-gray-200 mt-4 rounded p-10">
+<p class="font-semibold text-xl mb-2">{{active_loan.loan_type.loan_name}}</p>
+<p class="mb-2">Amount: {{active_loan.amount}}</p>
+<p>Future: Create pay back loan. Maybe something with dates, and also</p>
+</div>
+</div>
+{% endfor %}
 {% endblock %}

@@ -5,7 +5,7 @@ from .models import LoanType, LoanApplication
 class LoanTypeForm(forms.ModelForm):
     class Meta:
         model = LoanType
-        fields = ["loan_name", "max_amount", "min_amount", "requires_approval", "rate"]
+        fields = ["loan_name", "max_amount", "min_amount", "rate"]
 
 
 class LoanApplicationForm(forms.ModelForm):
